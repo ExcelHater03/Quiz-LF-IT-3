@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kurzkontrolle 14.10.2026 – Lernen &amp; Lückentext-Quiz</title>
+<style>
+:root{
+  --paper:#f3f6fb; --grid:#dbe3f0; --card:#ffffff; --ink:#1b2236; --muted:#586179; --line:#d5dcea;
+  --tinte:#2237a8; --tinte-bg:#e8ecfb; --on-tinte:#ffffff;
+  --ok:#14703f; --ok-bg:#dff3e7; --bad:#b3261e; --bad-bg:#fce8e6; --warn:#7a4f00; --warn-bg:#fff0cc;
+  --code-bg:#eef1f8;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#12161f; --grid:#1c2333; --card:#1a2030; --ink:#e7ebf5; --muted:#a2abc2; --line:#2e3750;
+    --tinte:#9db0ff; --tinte-bg:#232c52; --on-tinte:#10162e;
+    --ok:#6fdc9d; --ok-bg:#16342a; --bad:#ff9a92; --bad-bg:#3a1d1f; --warn:#ffd27a; --warn-bg:#3a2e12;
+    --code-bg:#232b40;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#12161f; --grid:#1c2333; --card:#1a2030; --ink:#e7ebf5; --muted:#a2abc2; --line:#2e3750;
+  --tinte:#9db0ff; --tinte-bg:#232c52; --on-tinte:#10162e;
+  --ok:#6fdc9d; --ok-bg:#16342a; --bad:#ff9a92; --bad-bg:#3a1d1f; --warn:#ffd27a; --warn-bg:#3a2e12;
+  --code-bg:#232b40;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:70px}
+body{
+  margin:0; color:var(--ink); background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px 64px}
+h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.25;margin:0}
+h1{font-size:clamp(1.7rem,5vw,2.4rem);letter-spacing:-.01em}
+h2{font-size:1.35rem}
+h3{font-size:1.08rem;margin:18px 0 6px}
+header{padding:18px 0 10px}
+header p{margin:6px 0 0;color:var(--muted)}
+nav{position:sticky;top:0;z-index:5;display:flex;gap:6px;padding:10px 0;background:var(--paper);border-bottom:2px solid var(--tinte);margin-bottom:18px}
+nav button{flex:1;font:inherit;font-weight:600;padding:10px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer}
+nav button[aria-selected="true"]{background:var(--tinte);border-color:var(--tinte);color:var(--on-tinte)}
+:focus-visible{outline:3px solid var(--tinte);outline-offset:2px}
+section.panel[hidden]{display:none}
+
+details.topic{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--tinte);border-radius:8px;margin:0 0 14px}
+details.topic>summary{cursor:pointer;padding:14px 16px;font-family:Georgia,serif;font-weight:700;font-size:1.15rem;list-style-position:inside}
+details.topic>div{padding:0 16px 16px}
+.merk{background:var(--tinte-bg);border-radius:8px;padding:10px 14px;margin:6px 0 12px}
+.merk b{display:block;margin-bottom:2px}
+ul{margin:6px 0;padding-left:22px}
+li{margin:3px 0}
+code,pre{font-family:ui-monospace,"Cascadia Code",Consolas,Menlo,monospace;font-size:.92em}
+code{background:var(--code-bg);padding:1px 5px;border-radius:4px}
+pre{background:var(--code-bg);padding:12px 14px;border-radius:8px;overflow-x:auto;margin:8px 0;line-height:1.5}
+.tablewrap{overflow-x:auto;margin:8px 0}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:.96rem}
+th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--code-bg)}
+.note{background:var(--warn-bg);color:var(--ink);border-left:4px solid var(--warn);border-radius:6px;padding:8px 12px;margin:10px 0;font-size:.95rem}
+
+/* Quiz */
+.toolbar{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.chip{font:inherit;font-size:.9rem;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--tinte);border-color:var(--tinte);color:var(--on-tinte)}
+.opt{display:flex;align-items:center;gap:8px;font-size:.95rem;color:var(--muted)}
+.q{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;margin-bottom:10px}
+.q.ok{border-color:var(--ok);background:linear-gradient(var(--ok-bg),var(--ok-bg)) ,var(--card)}
+.q .num{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:var(--tinte-bg);color:var(--tinte);font-weight:700;font-size:.9rem;display:grid;place-items:center}
+.q .body{flex:1;min-width:0}
+.q .lead{display:block;color:var(--muted);font-size:.9rem;margin-bottom:2px}
+.q p{margin:0;line-height:2.3}
+.q p.mono{font-family:ui-monospace,Consolas,monospace;font-size:.98rem}
+.tag{font-size:.78rem;color:var(--muted);margin-top:4px}
+input.gap{
+  font:inherit;color:var(--tinte);font-weight:600;text-align:center;
+  background:transparent;border:0;border-bottom:2px solid var(--tinte);border-radius:0;
+  padding:0 4px;margin:0 2px;min-width:5ch;max-width:100%;
+}
+input.gap:focus{outline:none;background:var(--tinte-bg);border-bottom-width:3px}
+input.gap.good{color:var(--ok);border-bottom-color:var(--ok);background:var(--ok-bg)}
+input.gap.bad{color:var(--bad);border-bottom-color:var(--bad);background:var(--bad-bg);text-decoration:line-through}
+input.gap.close{color:var(--warn);border-bottom-color:var(--warn);background:var(--warn-bg)}
+.sol{display:inline-block;font-size:.88rem;font-weight:600;color:var(--ok);background:var(--ok-bg);border-radius:4px;padding:0 6px;margin:0 2px;line-height:1.7}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.btn{font:inherit;font-weight:600;padding:10px 16px;border-radius:8px;border:1px solid var(--tinte);background:var(--card);color:var(--tinte);cursor:pointer}
+.btn.primary{background:var(--tinte);color:var(--on-tinte)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.result{background:var(--card);border:2px solid var(--tinte);border-radius:8px;padding:14px 16px;margin-top:6px}
+.result[hidden]{display:none}
+.bar{height:10px;border-radius:999px;background:var(--code-bg);overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .4s}
+.result .big{font-family:Georgia,serif;font-size:1.5rem;font-weight:700}
+@media (prefers-reduced-motion: reduce){.bar i{transition:none}}
+footer{margin-top:30px;color:var(--muted);font-size:.85rem}
+.theme{float:right;font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <button class="theme" id="themeBtn" type="button" aria-label="Hell/Dunkel umschalten">Hell/Dunkel</button>
+  <h1>Kurzkontrolle 14.10.2026</h1>
+  <p>Algorithmen, Klassen &amp; Objekte, Schlüsselwörter, Main-Methode, Compiler &amp; Interpreter – erst lernen, dann als Lückentext üben.</p>
+</header>
+
+<nav role="tablist" aria-label="Bereiche">
+  <button role="tab" id="tab-learn" aria-selected="true" aria-controls="learn">Lernen</button>
+  <button role="tab" id="tab-quiz" aria-selected="false" aria-controls="quiz">Lückentext-Quiz</button>
+  <button role="tab" id="tab-tips" aria-selected="false" aria-controls="tips">Moodle-Tipps</button>
+</nav>
+
+<!-- ======================= LERNEN ======================= -->
+<section class="panel" id="learn" role="tabpanel" aria-labelledby="tab-learn">
+
+<details class="topic" open>
+<summary>1. Der Begriff „Algorithmus“</summary>
+<div>
+  <div class="merk"><b>Merksatz</b>Ein Algorithmus ist eine <b style="display:inline">eindeutige</b>, endliche Folge von <b style="display:inline">Anweisungen</b> (Handlungsvorschrift) zur Lösung eines <b style="display:inline">Problems</b> bzw. einer ganzen Klasse von Problemen.</div>
+  <ul>
+    <li>Ablauf: <b>Eingabe → Verarbeitung → Ausgabe</b> (EVA-Prinzip).</li>
+    <li>Alltagsbeispiele: Kochrezept, Wegbeschreibung, Bedienungsanleitung, Sortieren einer Liste, schriftliche Division.</li>
+    <li>Darstellungsformen: Programmablaufplan (PAP), Struktogramm (Nassi-Shneiderman), Pseudocode oder direkt als Programmcode.</li>
+    <li>Ein Algorithmus ist noch <b>kein Programm</b>: Das Programm ist die Umsetzung des Algorithmus in einer Programmiersprache.</li>
+  </ul>
+</div>
+</details>
+
+<details class="topic" open>
+<summary>2. Eigenschaften von Algorithmen</summary>
+<div>
+  <div class="tablewrap"><table>
+    <tr><th>Eigenschaft</th><th>Bedeutung</th></tr>
+    <tr><td><b>Eindeutigkeit</b></td><td>Jeder Schritt ist klar und unmissverständlich beschrieben.</td></tr>
+    <tr><td><b>Endlichkeit</b> (Terminierung)</td><td>Der Algorithmus besteht aus endlich vielen Schritten und hält nach endlicher Zeit an.</td></tr>
+    <tr><td><b>Ausführbarkeit</b></td><td>Jeder Einzelschritt kann tatsächlich durchgeführt werden.</td></tr>
+    <tr><td><b>Determiniertheit</b></td><td>Gleiche Eingabe ⇒ immer das gleiche Ergebnis.</td></tr>
+    <tr><td><b>Determinismus</b></td><td>Gleiche Eingabe ⇒ immer der gleiche Ablauf (Zwischenschritte).</td></tr>
+    <tr><td><b>Allgemeingültigkeit</b></td><td>Löst nicht nur ein Einzelproblem, sondern eine ganze Problemklasse.</td></tr>
+  </table></div>
+  <div class="note">Die Begriffe unterscheiden sich je nach Lehrbuch leicht (manchmal auch „Korrektheit“, „Effizienz“, „Vollständigkeit“). Lerne vor allem die Wörter aus <b>deinem Unterricht / Skript</b>.</div>
+</div>
+</details>
+
+<details class="topic" open>
+<summary>3. Klasse und Objekt</summary>
+<div>
+  <div class="merk"><b>Merksatz</b>Die <b style="display:inline">Klasse</b> ist der <b style="display:inline">Bauplan</b> (Schablone, Vorlage). Ein <b style="display:inline">Objekt</b> ist eine konkrete <b style="display:inline">Instanz</b> (Ausprägung, Exemplar) dieser Klasse.</div>
+  <div class="tablewrap"><table>
+    <tr><th></th><th>Klasse</th><th>Objekt</th></tr>
+    <tr><td>Was ist das?</td><td>Bauplan / Typ</td><td>Konkretes Exemplar im Speicher</td></tr>
+    <tr><td>Anzahl</td><td>Wird einmal definiert</td><td>Beliebig viele pro Klasse</td></tr>
+    <tr><td>Enthält</td><td>Attribute (Eigenschaften) und Methoden (Verhalten) als Vorgabe</td><td>Konkrete Werte der Attribute</td></tr>
+    <tr><td>Beispiel</td><td><code>Auto</code></td><td>der rote Golf von Max</td></tr>
+  </table></div>
+<pre>public class Auto {                 // Klasse = Bauplan
+    private String farbe;              // Attribut
+    public void fahren() { ... }       // Methode
+}
+
+Auto a1 = new Auto();   // Objekt 1 (Instanz)
+Auto a2 = new Auto();   // Objekt 2 – gleiche Klasse, eigener Zustand</pre>
+  <ul>
+    <li>Ein Objekt wird mit dem Schlüsselwort <code>new</code> erzeugt (Instanziierung); dabei läuft der <b>Konstruktor</b>.</li>
+    <li>Klasse = <b>Typ</b>, Objekt = <b>Wert/Variable</b> dieses Typs.</li>
+  </ul>
+</div>
+</details>
+
+<details class="topic" open>
+<summary>4. public, private und static</summary>
+<div>
+  <div class="tablewrap"><table>
+    <tr><th>Schlüsselwort</th><th>Bedeutung</th></tr>
+    <tr><td><code>public</code></td><td>Zugriff von <b>überall</b> – auch aus anderen Klassen.</td></tr>
+    <tr><td><code>private</code></td><td>Zugriff nur <b>innerhalb der eigenen Klasse</b>. Grundlage der <b>Kapselung</b> (Information Hiding). Von außen nur über <b>Getter/Setter</b>.</td></tr>
+    <tr><td><code>static</code></td><td>Gehört zur <b>Klasse</b>, nicht zu einem Objekt. Aufruf ohne <code>new</code>, z. B. <code>Math.sqrt(9)</code>.</td></tr>
+  </table></div>
+<pre>public class Konto {
+    private double stand;                  // nur in Konto sichtbar
+    private static int anzahl = 0;         // gehört der Klasse, gibt es nur 1x
+
+    public double getStand() { return stand; }          // Getter
+    public void setStand(double s) { stand = s; }       // Setter
+    public static int getAnzahl() { return anzahl; }    // Aufruf: Konto.getAnzahl()
+}</pre>
+  <ul>
+    <li><code>public</code> und <code>private</code> sind <b>Zugriffsmodifizierer</b> (Sichtbarkeit); <code>static</code> sagt, <b>wem</b> ein Element gehört (Klasse oder Objekt).</li>
+    <li>Zusatzwissen: <code>protected</code> = eigene Klasse, Unterklassen und gleiches Paket.</li>
+  </ul>
+</div>
+</details>
+
+<details class="topic" open>
+<summary>5. Die Main-Methode</summary>
+<div>
+  <div class="merk"><b>Merksatz</b>Die main-Methode ist der <b style="display:inline">Einstiegspunkt</b> (Startpunkt) eines Programms: Hier beginnt die Ausführung.</div>
+<pre>public static void main(String[] args) {
+    System.out.println("Hallo Welt");
+}</pre>
+  <div class="tablewrap"><table>
+    <tr><th>Teil</th><th>Warum?</th></tr>
+    <tr><td><code>public</code></td><td>Die JVM (von außen) muss die Methode aufrufen dürfen.</td></tr>
+    <tr><td><code>static</code></td><td>Beim Start gibt es noch kein Objekt – die JVM ruft sie über die Klasse auf.</td></tr>
+    <tr><td><code>void</code></td><td>Kein Rückgabewert.</td></tr>
+    <tr><td><code>main</code></td><td>Festgelegter Name, den die JVM sucht.</td></tr>
+    <tr><td><code>String[] args</code></td><td>Kommandozeilenparameter (Argumente beim Programmstart).</td></tr>
+  </table></div>
+  <div class="note"><b>Java oder C#?</b> In Java heißt die Methode <code>main</code> (klein), in C# <code>Main</code> (groß, <code>static void Main(string[] args)</code>). Das Prinzip ist identisch. Nimm die Schreibweise deiner Sprache aus dem Unterricht.</div>
+</div>
+</details>
+
+<details class="topic" open>
+<summary>6. Compiler und Interpreter</summary>
+<div>
+  <div class="tablewrap"><table>
+    <tr><th></th><th>Compiler</th><th>Interpreter</th></tr>
+    <tr><td>Arbeitsweise</td><td>Übersetzt den <b>gesamten</b> Quelltext <b>vorab</b></td><td>Übersetzt und führt <b>Zeile für Zeile</b> zur Laufzeit aus</td></tr>
+    <tr><td>Ergebnis</td><td>Eigene Datei (Maschinencode / Bytecode)</td><td>Keine eigene Ausgabedatei</td></tr>
+    <tr><td>Geschwindigkeit</td><td>Programm läuft meist <b>schneller</b></td><td>Meist <b>langsamer</b> (Übersetzung bei jedem Lauf)</td></tr>
+    <tr><td>Fehler</td><td>Syntaxfehler <b>vor</b> dem Start</td><td>Fehler erst, wenn die Zeile erreicht wird</td></tr>
+    <tr><td>Beispiele</td><td>C, C++, Java (<code>javac</code>)</td><td>Python, JavaScript, PHP</td></tr>
+  </table></div>
+  <ul>
+    <li><b>Java ist ein Mix:</b> <code>javac</code> (Compiler) erzeugt aus <code>.java</code> den <b>Bytecode</b> (<code>.class</code>), die <b>JVM</b> führt ihn aus (interpretiert bzw. per JIT übersetzt).</li>
+    <li>Vorteil Bytecode: plattformunabhängig („write once, run anywhere“).</li>
+  </ul>
+</div>
+</details>
+
+<p style="text-align:center"><button class="btn primary" type="button" id="toQuiz">Jetzt als Lückentext üben</button></p>
+</section>
+
+<!-- ======================= QUIZ ======================= -->
+<section class="panel" id="quiz" role="tabpanel" aria-labelledby="tab-quiz" hidden>
+  <div class="toolbar">
+    <div class="chips" id="chips" role="group" aria-label="Thema wählen"></div>
+    <label class="opt"><input type="checkbox" id="shuffle"> Fragen mischen</label>
+  </div>
+
+  <div id="questions"></div>
+
+  <div class="actions">
+    <button class="btn primary" type="button" id="check">Prüfen</button>
+    <button class="btn" type="button" id="reveal">Lösungen zeigen</button>
+    <button class="btn" type="button" id="retry" disabled>Nur Fehler wiederholen</button>
+    <button class="btn" type="button" id="reset">Neu starten</button>
+  </div>
+
+  <div class="result" id="result" hidden aria-live="polite"></div>
+</section>
+
+<!-- ======================= TIPPS ======================= -->
+<section class="panel" id="tips" role="tabpanel" aria-labelledby="tab-tips" hidden>
+<details class="topic" open>
+<summary>So füllst du einen Moodle-Lückentext sicher aus</summary>
+<div>
+  <ul>
+    <li><b>Satz ganz lesen.</b> Artikel, Zahl und Satzbau verraten, welche Wortform fehlt (Einzahl/Mehrzahl, Nomen/Verb).</li>
+    <li><b>Fachbegriff statt Umschreibung.</b> Schreibe das Wort aus dem Unterricht. Moodle vergleicht Text – ein Synonym wird nur gewertet, wenn die Lehrkraft es als Antwort hinterlegt hat.</li>
+    <li><b>Rechtschreibung zählt.</b> Ein Buchstabendreher macht die Lücke falsch. Dieses Quiz markiert „fast richtig“ gelb – Moodle würde es als falsch werten.</li>
+    <li><b>Groß-/Kleinschreibung:</b> Ob sie egal ist, stellt die Lehrkraft ein. Schreib sicherheitshalber korrekt: Nomen groß (<i>Klasse, Objekt, Compiler</i>), Java-Wörter klein (<code>public</code>, <code>static</code>, <code>void</code>, <code>main</code>, <code>args</code>), Typ <code>String</code> groß.</li>
+    <li><b>Umlaute richtig schreiben</b> (ä, ö, ü, ß), nicht „ae“ oder „ss“ – in diesem Quiz wird beides akzeptiert, in Moodle eventuell nicht.</li>
+    <li><b>Ein Begriff pro Lücke.</b> Keine ganzen Sätze, keine Zusätze in Klammern, keine Leerzeichen davor oder dahinter.</li>
+    <li><b>Keine Lücke leer lassen.</b> Eine leere Lücke bringt garantiert keinen Punkt.</li>
+    <li><b>Vor dem Abgeben</b> alle Lücken noch einmal durchgehen und den Zeitrahmen im Blick behalten. Danach „Alles abgeben und beenden“ bestätigen.</li>
+  </ul>
+  <div class="note">Wie streng die Auswertung eingestellt ist, weiß nur deine Lehrkraft. Frag im Zweifel vorher nach: Groß-/Kleinschreibung, Synonyme, Java oder C#?</div>
+</div>
+</details>
+
+<details class="topic" open>
+<summary>Diese Begriffe solltest du auswendig können</summary>
+<div>
+  <ul>
+    <li><b>Algorithmus:</b> eindeutig, endlich, Handlungsvorschrift, Problem, Anweisungen</li>
+    <li><b>Eigenschaften:</b> Eindeutigkeit, Endlichkeit/Terminierung, Ausführbarkeit, Determiniertheit, Determinismus, Allgemeingültigkeit</li>
+    <li><b>OOP:</b> Klasse = Bauplan, Objekt = Instanz, Attribut, Methode, <code>new</code>, Konstruktor</li>
+    <li><b>Schlüsselwörter:</b> <code>public</code> = überall, <code>private</code> = nur eigene Klasse (Kapselung), <code>static</code> = gehört zur Klasse</li>
+    <li><b>main:</b> Einstiegspunkt, <code>public static void main(String[] args)</code>, JVM, Kommandozeilenparameter</li>
+    <li><b>Compiler</b> = ganz, vorab, schneller · <b>Interpreter</b> = zeilenweise, zur Laufzeit · Java: <code>javac</code> → Bytecode → JVM</li>
+  </ul>
+</div>
+</details>
+</section>
+
+<footer>Lernhilfe, keine offizielle Aufgabensammlung. Die genauen Lücken der Kurzkontrolle können abweichen.</footer>
+</div>
+
+<script>
+/* ---------- Fragen ----------
+   [[Antwort|Alternative|…]] = Lücke. Die erste Antwort wird als Lösung angezeigt.
+   `text` = Code-Schrift. mono:true = ganze Zeile in Code-Schrift. lead = Hinweiszeile. */
+const TOPICS = {
+  algo:"Algorithmus", eig:"Eigenschaften", klasse:"Klasse & Objekt",
+  mod:"public · private · static", main:"Main-Methode", comp:"Compiler & Interpreter"
+};
+const QUESTIONS = [
+  // 1 Algorithmus
+  {t:"algo", q:"Ein Algorithmus ist eine [[eindeutige|endliche]] Folge von [[Anweisungen|Handlungsanweisungen|Handlungsvorschriften|Schritten|Befehlen|Handlungsschritten]] zur Lösung eines [[Problems|Problem]]."},
+  {t:"algo", q:"Ein Algorithmus besteht aus einer [[endlichen|eindeutigen]] Anzahl von Schritten. Die Daten durchlaufen dabei das EVA-Prinzip: Eingabe, [[Verarbeitung]], Ausgabe."},
+  {t:"algo", q:"Ein Algorithmus ist noch kein Programm. Das Programm ist die Umsetzung des Algorithmus in einer [[Programmiersprache]]."},
+  {t:"algo", q:"Algorithmen lassen sich grafisch z. B. als [[Programmablaufplan|PAP|Struktogramm|Flussdiagramm|Nassi-Shneiderman-Diagramm]] oder in [[Pseudocode]] darstellen."},
+  // 2 Eigenschaften
+  {t:"eig", q:"Ein Algorithmus muss nach endlich vielen Schritten [[enden|terminieren|abbrechen|stoppen|anhalten]]. Diese Eigenschaft heißt [[Endlichkeit|Terminierung|Finitheit]]."},
+  {t:"eig", q:"Jeder Schritt muss klar und unmissverständlich beschrieben sein. Das nennt man [[Eindeutigkeit]]."},
+  {t:"eig", q:"Bei gleicher Eingabe liefert ein Algorithmus immer das gleiche [[Ergebnis]]. Diese Eigenschaft heißt [[Determiniertheit|Determinismus]]."},
+  {t:"eig", q:"Jeder Einzelschritt muss tatsächlich durchgeführt werden können. Diese Eigenschaft heißt [[Ausführbarkeit|Durchführbarkeit]]."},
+  {t:"eig", q:"Ein Algorithmus löst nicht nur ein einzelnes Problem, sondern eine ganze [[Problemklasse|Klasse|Klasse von Problemen|Menge]] von Problemen. Das nennt man [[Allgemeingültigkeit|Allgemeinheit]]."},
+  // 3 Klasse & Objekt
+  {t:"klasse", q:"Eine Klasse ist ein [[Bauplan|Schablone|Vorlage|Bauplan/Schablone|Plan]] für Objekte."},
+  {t:"klasse", q:"Ein Objekt ist eine konkrete [[Instanz|Ausprägung|Exemplar]] einer Klasse."},
+  {t:"klasse", q:"Eine Klasse beschreibt die [[Attribute|Eigenschaften|Daten]] und die [[Methoden|Verhalten|Fähigkeiten|Funktionen]] ihrer Objekte."},
+  {t:"klasse", lead:"Vervollständige:", mono:true, q:"Auto meinAuto = [[new]] Auto();"},
+  {t:"klasse", q:"Im Beispiel `Auto meinAuto = new Auto();` ist `Auto` die [[Klasse]] und `meinAuto` das [[Objekt|Instanz|Exemplar]]."},
+  {t:"klasse", q:"Von einer Klasse kann man [[beliebig viele|viele|mehrere|unendlich viele]] Objekte erzeugen. Das Erzeugen eines Objekts nennt man [[Instanziierung|Instanzierung|Instanziieren|Instanzieren]]."},
+  // 4 Schlüsselwörter
+  {t:"mod", q:"Ein mit [[public]] gekennzeichnetes Element ist von [[überall|außerhalb|allen Klassen|jeder Klasse|jeder Stelle]] aus zugreifbar."},
+  {t:"mod", q:"Ein mit [[private]] gekennzeichnetes Attribut ist nur innerhalb der [[eigenen Klasse|Klasse|gleichen Klasse|selben Klasse]] sichtbar."},
+  {t:"mod", q:"Das Verbergen von Attributen mit `private` nennt man [[Kapselung|Datenkapselung|Information Hiding]]. Von außen greift man über [[Getter|get]]- und [[Setter|set]]-Methoden darauf zu."},
+  {t:"mod", q:"Ein mit [[static]] gekennzeichnetes Element gehört zur [[Klasse]] und nicht zu einem einzelnen Objekt."},
+  {t:"mod", q:"Statische Methoden kann man aufrufen, ohne vorher ein [[Objekt|Instanz|Exemplar]] zu erzeugen, z. B. `Math.sqrt(9)`."},
+  {t:"mod", q:"`public` und `private` heißen auch [[Zugriffsmodifizierer|Zugriffsmodifikatoren|Sichtbarkeitsmodifizierer|Zugriffsmodifier]], weil sie die [[Sichtbarkeit|Zugriff|Zugreifbarkeit]] eines Elements festlegen."},
+  // 5 Main
+  {t:"main", q:"Die Main-Methode ist der [[Einstiegspunkt|Startpunkt|Einstieg|Anfang|Startmethode]] eines Programms. Sie wird zuerst von der [[JVM|Java Virtual Machine|Laufzeitumgebung]] aufgerufen."},
+  {t:"main", lead:"Vervollständige die Signatur der Main-Methode:", mono:true, q:"[[public]] [[static]] [[void]] main(String[] [[args]])"},
+  {t:"main", q:"Die Main-Methode ist `static`, damit sie aufgerufen werden kann, ohne dass vorher ein [[Objekt|Instanz|Exemplar]] erzeugt wurde."},
+  {t:"main", q:"Die Main-Methode ist `public`, damit die JVM von [[außen|außerhalb|überall]] auf sie zugreifen darf. `void` bedeutet, dass sie keinen [[Rückgabewert|Rückgabe|Return|Wert]] liefert."},
+  {t:"main", q:"Der Parameter `String[] args` nimmt die [[Kommandozeilenparameter|Kommandozeilenargumente|Programmparameter|Argumente|Übergabeparameter|Parameter|Startparameter]] entgegen."},
+  // 6 Compiler & Interpreter
+  {t:"comp", q:"Ein [[Compiler]] übersetzt den gesamten Quelltext [[vor|vorab|bevor|vor dem Start]] der Ausführung in Maschinencode oder Bytecode."},
+  {t:"comp", q:"Ein [[Interpreter]] übersetzt und führt den Quelltext [[Zeile für Zeile|zeilenweise|Anweisung für Anweisung|schrittweise]] zur [[Laufzeit]] aus."},
+  {t:"comp", q:"Compilierte Programme laufen in der Regel [[schneller]] als interpretierte, weil die Übersetzung bereits vorher stattgefunden hat."},
+  {t:"comp", q:"Ein Compiler meldet Syntaxfehler [[vor|bereits vor|bevor]] dem Programmstart, ein Interpreter erst [[während der Laufzeit|zur Laufzeit|beim Ausführen|wenn die Zeile erreicht wird]]."},
+  {t:"comp", q:"Bei Java übersetzt der Compiler [[javac]] die Datei mit der Endung `.java` in [[Bytecode]]. Dieser wird von der [[JVM|Java Virtual Machine]] ausgeführt."},
+  {t:"comp", q:"Beispiele: C und C++ werden [[kompiliert|compiliert]], Python wird [[interpretiert]]."}
+];
+
+/* ---------- Hilfsfunktionen ---------- */
+const $ = s => document.querySelector(s);
+const norm = s => s.toLowerCase().trim()
+  .replace(/[-–]/g," ").replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss")
+  .replace(/[.,;:!?()"'`]/g,"").replace(/\s+/g," ").trim();
+function lev(a,b){
+  const m=a.length,n=b.length; if(!m) return n; if(!n) return m;
+  let prev=Array.from({length:n+1},(_,j)=>j);
+  for(let i=1;i<=m;i++){
+    const cur=[i];
+    for(let j=1;j<=n;j++) cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+    prev=cur;
+  }
+  return prev[n];
+}
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const fmt = s => esc(s).replace(/`([^`]+)`/g,"<code>$1</code>");
+const shuffleArr = a => { const r=a.slice(); for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [r[i],r[j]]=[r[j],r[i]];} return r; };
+
+/* ---------- Tabs ---------- */
+const TABS = ["learn","quiz","tips"];
+function showTab(id){
+  TABS.forEach(t=>{
+    $("#"+t).hidden = t!==id;
+    $("#tab-"+t).setAttribute("aria-selected", String(t===id));
+  });
+  window.scrollTo({top:0});
+}
+TABS.forEach(t=>$("#tab-"+t).addEventListener("click",()=>showTab(t)));
+$("#toQuiz").addEventListener("click",()=>showTab("quiz"));
+
+/* ---------- Theme ---------- */
+$("#themeBtn").addEventListener("click",()=>{
+  const root=document.documentElement;
+  const dark = root.dataset.theme==="dark" || (!root.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
+  root.dataset.theme = dark ? "light" : "dark";
+});
+
+/* ---------- Quiz ---------- */
+let topic = "all", current = [], blanks = [];
+
+function buildChips(){
+  const box=$("#chips"); box.innerHTML="";
+  const mk=(key,label)=>{
+    const b=document.createElement("button");
+    b.type="button"; b.className="chip"; b.textContent=label;
+    b.setAttribute("aria-pressed", String(topic===key));
+    b.addEventListener("click",()=>{ topic=key; buildChips(); start(); });
+    box.appendChild(b);
+  };
+  mk("all","Alle ("+QUESTIONS.length+")");
+  Object.keys(TOPICS).forEach(k=>mk(k, TOPICS[k]+" ("+QUESTIONS.filter(q=>q.t===k).length+")"));
+}
+
+function start(list){
+  let items = list || QUESTIONS.filter(q=>topic==="all"||q.t===topic);
+  if($("#shuffle").checked && !list) items = shuffleArr(items);
+  current = items; render();
+}
+
+function render(){
+  const box=$("#questions"); box.innerHTML=""; blanks=[];
+  current.forEach((q,i)=>{
+    const wrap=document.createElement("div"); wrap.className="q";
+    const num=document.createElement("span"); num.className="num"; num.textContent=i+1;
+    const body=document.createElement("div"); body.className="body";
+    if(q.lead){ const l=document.createElement("span"); l.className="lead"; l.textContent=q.lead; body.appendChild(l); }
+    const p=document.createElement("p"); if(q.mono) p.className="mono";
+    const item={q,wrap,inputs:[]};
+    let last=0;
+    q.q.replace(/\[\[(.+?)\]\]/g,(m,a,off)=>{
+      p.insertAdjacentHTML("beforeend", fmt(q.q.slice(last,off)));
+      const answers=a.split("|");
+      const inp=document.createElement("input");
+      inp.type="text"; inp.className="gap"; inp.autocomplete="off"; inp.autocapitalize="off";
+      inp.spellcheck=false; inp.setAttribute("aria-label","Lücke "+(item.inputs.length+1)+" in Frage "+(i+1));
+      const longest=Math.max(...answers.map(x=>x.length));
+      inp.style.width=Math.max(6,Math.min(longest+2,26))+"ch";
+      const ref={inp,answers,sol:null}; item.inputs.push(ref);
+      inp.addEventListener("input",()=>{ inp.className="gap"; if(ref.sol){ref.sol.remove();ref.sol=null;} wrap.classList.remove("ok"); });
+      inp.addEventListener("keydown",e=>{
+        if(e.key==="Enter"){
+          e.preventDefault();
+          const all=[...document.querySelectorAll("#questions input.gap")];
+          const k=all.indexOf(inp);
+          if(k<all.length-1) all[k+1].focus(); else checkAll();
+        }
+      });
+      p.appendChild(inp);
+      last=off+m.length; return m;
+    });
+    p.insertAdjacentHTML("beforeend", fmt(q.q.slice(last)));
+    body.appendChild(p);
+    wrap.append(num,body); box.appendChild(wrap);
+    blanks.push(item);
+  });
+  $("#result").hidden=true; $("#retry").disabled=true;
+}
+
+function grade(ref){
+  const v=norm(ref.inp.value);
+  if(!v) return "bad";
+  const acc=ref.answers.map(norm);
+  if(acc.includes(v)) return "good";
+  if(v.length>=4 && acc.some(a=>a.length>=5 && lev(a,v)<=1)) return "close";
+  return "bad";
+}
+function showSol(ref){
+  if(ref.sol) ref.sol.remove();
+  const s=document.createElement("span"); s.className="sol";
+  s.textContent="✓ "+ref.answers.slice(0,2).join(" / ");
+  ref.inp.after(s); ref.sol=s;
+}
+
+function checkAll(){
+  let good=0,total=0,close=0,empty=0; const wrong=[];
+  blanks.forEach(it=>{
+    let all=true;
+    it.inputs.forEach(ref=>{
+      total++;
+      const r=grade(ref);
+      ref.inp.className="gap "+r;
+      if(ref.sol){ref.sol.remove();ref.sol=null;}
+      if(r==="good") good++;
+      else { all=false; showSol(ref); if(r==="close") close++; if(!ref.inp.value.trim()) empty++; }
+    });
+    it.wrap.classList.toggle("ok",all);
+    if(!all) wrong.push(it.q);
+  });
+  const pct=Math.round(good/total*100);
+  const res=$("#result"); res.hidden=false;
+  let best="";
+  try{
+    const key="best_"+topic, old=+localStorage.getItem(key)||0;
+    if(pct>old) localStorage.setItem(key,pct);
+    best=" Bestwert in diesem Bereich: "+Math.max(pct,old)+" %.";
+  }catch(e){}
+  res.innerHTML =
+    '<div class="big">'+good+' von '+total+' Lücken richtig ('+pct+' %)</div>'+
+    '<div class="bar"><i style="width:'+pct+'%"></i></div>'+
+    '<div>'+(pct===100?"Alles richtig. Du bist bereit für die Kurzkontrolle.":
+      (wrong.length+" Frage(n) mit Fehlern. Falsche Lücken zeigen die Lösung in Grün."))+
+    (close?" "+close+" Lücke(n) sind nur knapp daneben (gelb) – Moodle würde sie als falsch werten.":"")+
+    (empty?" "+empty+" Lücke(n) sind leer.":"")+best+'</div>';
+  $("#retry").disabled = wrong.length===0;
+  $("#retry")._wrong = wrong;
+  res.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+$("#check").addEventListener("click",checkAll);
+$("#reveal").addEventListener("click",()=>{
+  blanks.forEach(it=>it.inputs.forEach(ref=>{ if(grade(ref)!=="good"){ ref.inp.className="gap bad"; showSol(ref);} }));
+});
+$("#retry").addEventListener("click",()=>{ const w=$("#retry")._wrong; if(w&&w.length){ start(shuffleArr(w)); window.scrollTo({top:0}); } });
+$("#reset").addEventListener("click",()=>{ start(); window.scrollTo({top:0}); });
+$("#shuffle").addEventListener("change",()=>start());
+
+buildChips(); start();
+</script>
+</body>
+</html>
